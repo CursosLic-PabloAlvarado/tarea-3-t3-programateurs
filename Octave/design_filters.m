@@ -1,4 +1,7 @@
 % Este archivo contiene los 16 filtros requeridos.
+% 4 metodos: ellip, butter, cheby1, cheby2
+% 4 tipos de filtros: paso bajo, paso alto, pasa banda, rechaza banda
+% Guarda los coeficientes de los filtros en archivos .mat
 
 pkg load signal
 
