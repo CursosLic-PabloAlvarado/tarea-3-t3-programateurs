@@ -78,6 +78,7 @@ int main (int argc, char *argv[])
   
   try {
     static filter_client client;
+    static 
 
     typedef jack::client::sample_t sample_t;
     
