@@ -53,7 +53,7 @@
 #include <boost/program_options.hpp>
 
 #include "waitkey.h"
-#include "passthrough_client.h"
+#include "filter_client.h"
 
 #include "parse_filter.h"
 
@@ -77,7 +77,7 @@ int main (int argc, char *argv[])
 
   
   try {
-    static passthrough_client client;
+    static filter_client client;
 
     typedef jack::client::sample_t sample_t;
     
@@ -140,8 +140,8 @@ int main (int argc, char *argv[])
           go_away=true;
           std::cout << "Finishing..." << std::endl;
         } break;
-        case 'r': {
 
+        case 'r': {
           if (vm.count("files")) {
             const std::vector< std::filesystem::path >&
               audio_files =
@@ -153,9 +153,16 @@ int main (int argc, char *argv[])
                         << (ok ? "succedded" : "failed") << std::endl;
             }
           }
-          
           std::cout << "Repeat playing files" << std::endl;
         } break;
+
+        case 'p':{ // prueba (biquad)
+          std::cout<<"estoy en p"<<std::endl;
+        } break;
+        case 'c':{ // cascade
+          std::cout<<"estoy en c"<<std::endl;
+        } break;
+
         default: {
           if (key>32) {
             std::cout << "Key " << char(key) << " pressed" << std::endl;
