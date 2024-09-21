@@ -1,9 +1,7 @@
-using namespace std;
-
 #ifndef _biquad_H
 #define _biquad_H
 
-
+using namespace std;
 #include "jack_client.h"
 #include <cstring>
 
@@ -12,10 +10,10 @@ using namespace std;
  *
  * This class wraps some basic jack functionality.
  */
-class biquad : public jack::client {
+class biquad {
     
 public:
-  // typedef jack::client::sample_t sample_t;
+  typedef jack::client::sample_t sample_t;
   
   /**
    * The default constructor performs some basic connections.
@@ -23,12 +21,17 @@ public:
   biquad();
   ~biquad();
 
+  sample_t b0, b1, b2, a1, a2;
+  sample_t x_minus_1, x_minus_2, y_minus_1, y_minus_2;
+
+  void set_coefficients(std::vector< sample_t > filter_coefs);
+
   /**
-   * Passthrough functionality
+   * IIR
    */
-  virtual bool process(jack_nframes_t nframes,
-                       const sample_t *const in,
-                       sample_t *const out) override;
+  void process(jack_nframes_t nframes,
+                const sample_t *const in,
+                sample_t *const out);
 };
 
 

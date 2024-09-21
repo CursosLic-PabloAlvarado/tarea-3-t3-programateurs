@@ -54,8 +54,9 @@
 
 #include "waitkey.h"
 #include "filter_client.h"
-
 #include "parse_filter.h"
+#include "biquad.h"
+#include "cascade.h"
 
 namespace po=boost::program_options;
 
@@ -78,7 +79,6 @@ int main (int argc, char *argv[])
   
   try {
     static filter_client client;
-    static 
 
     typedef jack::client::sample_t sample_t;
     
@@ -158,14 +158,19 @@ int main (int argc, char *argv[])
         } break;
 
         case 'p':{ // pasa todo
-          std::cout<<"estoy en p"<<std::endl;
+          std::cout<<"Passthrough activado"<<std::endl;
+          client.is_passthrough = !client.is_passthrough;
         } break;
 
         case 't':{ // test/prueba (biquad)
           std::cout<<"estoy en test"<<std::endl;
+          client.is_test_filter = !client.is_test_filter;
+          break;
         }
         case 'c':{ // cascade
+          client.set_coefficients(filter_coefs);
           std::cout<<"estoy en c"<<std::endl;
+          client.is_cascade = !client.is_cascade;
         } break;
 
         default: {
