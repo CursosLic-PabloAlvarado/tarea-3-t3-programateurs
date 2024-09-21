@@ -141,7 +141,7 @@ int main (int argc, char *argv[])
           std::cout << "Finishing..." << std::endl;
         } break;
 
-        case 'r': {
+        case 'r': { // repetir archivos
           if (vm.count("files")) {
             const std::vector< std::filesystem::path >&
               audio_files =
@@ -156,9 +156,13 @@ int main (int argc, char *argv[])
           std::cout << "Repeat playing files" << std::endl;
         } break;
 
-        case 'p':{ // prueba (biquad)
+        case 'p':{ // pasa todo
           std::cout<<"estoy en p"<<std::endl;
         } break;
+
+        case 't':{ // test/prueba (biquad)
+          std::cout<<"estoy en test"<<std::endl;
+        }
         case 'c':{ // cascade
           std::cout<<"estoy en c"<<std::endl;
         } break;
