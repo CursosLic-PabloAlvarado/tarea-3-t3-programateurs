@@ -1,4 +1,5 @@
 #include "biquad.h"
+#include <iostream>
 
 biquad::biquad() {
   this->b0 = 0;
@@ -31,15 +32,23 @@ void biquad::set_coefficients(std::vector< sample_t > filter_coefs){
  * port to its output port. It will exit when stopped by 
    * the user (e.g. using Ctrl-C on a unix-ish operating system)
    */
- void biquad::process(jack_nframes_t nframes,
-                                 const sample_t *const in,
-                                 sample_t *const out) {
-  const sample_t *const end_ptr=in+nframes;
-  const sample_t *ptr=in;
-  sample_t *opt=out;
+void biquad::process(jack_nframes_t nframes,
+                     const sample_t *const in,
+                     sample_t *const out) {
+  const sample_t *const end_ptr = in + nframes;
+  const sample_t *ptr = in;
+  sample_t *opt = out;
 
-  // y[n]=b0​x[n]+b1​x[n−1]+b2​x[n−2]−a1​y[n−1]−a2​y[n−2]
-  for(;ptr!=end_ptr;){
-    *opt++= this->b0*(*ptr++) + this->b1*this->x_minus_1 + this->b2*this->x_minus_2 - this->a1*this->y_minus_1 - this->a2*this->y_minus_2;
+  for (; ptr != end_ptr;) {
+    sample_t x = *ptr++;
+    sample_t y = this->b0 * x + this->b1 * this->x_minus_1 + this->b2 * this->x_minus_2- this->a1 * this->y_minus_1 - this->a2 * this->y_minus_2;
+
+    *opt++ = y;
+
+    // Actualizar las variables de estado
+    this->x_minus_2 = this->x_minus_1;
+    this->x_minus_1 = x;
+    this->y_minus_2 = this->y_minus_1;
+    this->y_minus_1 = y;
   }
 }

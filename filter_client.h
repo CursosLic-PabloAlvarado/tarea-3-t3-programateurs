@@ -4,6 +4,7 @@
 #include <cstring>
 #include "jack_client.h"
 #include "biquad.h"
+#include "cascade.h"
 
 typedef jack::client::sample_t sample_t;
 
@@ -24,6 +25,7 @@ public:
 
   sample_t b0, b1, b2, a1, a2;
   biquad test_filter;
+  cascade cascade_filter;
 
   bool is_passthrough = true;
   bool is_test_filter = false;

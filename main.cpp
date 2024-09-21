@@ -118,14 +118,15 @@ int main (int argc, char *argv[])
       }
     }
 
+    if (client.init() != jack::client_state::Running) {
+      throw std::runtime_error("Could not initialize the JACK client");
+    }
+
     if (vm.count("coeffs")) {
       filter_coefs = parse_filter<sample_t>(filter_file);
       std::cout << filter_coefs.size() << " 2nd order filter read from "
                 << filter_file;
-    }
-    
-    if (client.init() != jack::client_state::Running) {
-      throw std::runtime_error("Could not initialize the JACK client");
+      client.set_coefficients(filter_coefs);
     }
 
     // keep running until stopped by the user
@@ -159,18 +160,23 @@ int main (int argc, char *argv[])
 
         case 'p':{ // pasa todo
           std::cout<<"Passthrough activado"<<std::endl;
-          client.is_passthrough = !client.is_passthrough;
+          client.is_cascade = false;
+          client.is_test_filter = false;
+          client.is_passthrough = true;
         } break;
 
         case 't':{ // test/prueba (biquad)
-          std::cout<<"estoy en test"<<std::endl;
-          client.is_test_filter = !client.is_test_filter;
+          std::cout<<"Filtro de test activado"<<std::endl;
+          client.is_test_filter = true;
+          client.is_passthrough = false;
+          client.is_cascade = false;
           break;
         }
         case 'c':{ // cascade
-          client.set_coefficients(filter_coefs);
-          std::cout<<"estoy en c"<<std::endl;
-          client.is_cascade = !client.is_cascade;
+          std::cout<<"Cascade activado"<<std::endl;
+          client.is_cascade = true;
+          client.is_test_filter = false;
+          client.is_passthrough = false;
         } break;
 
         default: {
