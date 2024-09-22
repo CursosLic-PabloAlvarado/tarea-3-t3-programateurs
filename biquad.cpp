@@ -36,14 +36,14 @@ void biquad::process(jack_nframes_t nframes,
                      const sample_t *const in,
                      sample_t *const out) {
   const sample_t *const end_ptr = in + nframes;
-  const sample_t *ptr = in;
-  sample_t *opt = out;
+  const sample_t *in_ptr = in;
+  sample_t *out_ptr = out;
 
-  for (; ptr != end_ptr;) {
-    sample_t x = *ptr++;
+  for (; in_ptr != end_ptr;) {
+    sample_t x = *in_ptr++;
     sample_t y = this->b0 * x + this->b1 * this->x_minus_1 + this->b2 * this->x_minus_2- this->a1 * this->y_minus_1 - this->a2 * this->y_minus_2;
 
-    *opt++ = y;
+    *out_ptr++ = y;
 
     // Actualizar las variables de estado
     this->x_minus_2 = this->x_minus_1;

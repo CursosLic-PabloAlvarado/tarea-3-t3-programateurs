@@ -9,10 +9,10 @@ cascade::~cascade(){
 void cascade::set_coefficients(std::vector< std::vector< sample_t > > filter_coefs_matrix){
     // First stage
     stages.clear();
-    stages.push_back(&first_stage);
-    stages.push_back(&second_stage);
     this->first_stage.set_coefficients(filter_coefs_matrix[0]);
     this->second_stage.set_coefficients(filter_coefs_matrix[1]);
+    stages.push_back(&first_stage);
+    stages.push_back(&second_stage);
 
     // Third stage
     if (filter_coefs_matrix.size() > 2){
