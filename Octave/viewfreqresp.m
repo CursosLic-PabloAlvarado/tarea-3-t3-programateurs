@@ -9,6 +9,8 @@ function viewfreqresp(filename, Fs = 48000)
   % Fs = frecuencia de muestreo (por defecto 48 kHz)
 
   close all;
+
+  %TODO: guardar las img en una carpeta mediante un for
   
   % Cargar la matriz SOS desde el archivo
   Data = load(filename, "SOS");

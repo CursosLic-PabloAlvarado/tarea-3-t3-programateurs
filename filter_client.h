@@ -32,7 +32,7 @@ public:
   bool is_cascade = false;
 
   /**
-   * Function to passthorugh
+   * Function to passthrough
    */
   void passThrough(jack_nframes_t nframes,
                    const sample_t *const in,

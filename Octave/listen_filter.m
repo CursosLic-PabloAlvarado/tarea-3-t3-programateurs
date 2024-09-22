@@ -1,4 +1,14 @@
 function listen_filter(filter_file, wav_file, Fs = 48000)
+  % Esta funcion permite aplica un filtro dado a un archivo .wav
+  % y posteriormente escuchar este audio filtrado.
+  %
+  % Entradas:
+  %
+  % filter_file = string con el path del archivo que contiene 
+  %            los coeficientes del filtro.
+  % wav_file = archivo de audio al cual se le aplicara el filtro.
+  % Fs = frecuencia de muestreo (por defecto 48 kHz)
+
   % Cargar el filtro desde el archivo .mat
   Data = load(filter_file, "SOS");
   SOS = Data.SOS;
