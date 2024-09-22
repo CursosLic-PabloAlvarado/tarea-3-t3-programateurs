@@ -1,0 +1,29 @@
+# AMPLXE_PERF_STAT
+# hostname : justin-HP-ZBook-Studio-G3
+# os release : 6.8.0-45-generic
+# arch : x86_64
+# cpuid : GenuineIntel,6,94,3
+# cpudesc : Intel(R) Core(TM) i7-6700HQ CPU @ 2.60GHz
+# total memory : 16248060 kB
+# nrcpus online : 8
+# nrcpus avail : 8
+# sibling cores : 0-7
+# sibling threads : 0,4
+# sibling threads : 1,5
+# sibling threads : 2,6
+# sibling threads : 3,7
+# process id : 14951
+;;2153121232;0
+;;3075064344;1
+;;2749308405;2
+;;27541504;3
+;;24642568;4
+;;26281683;5
+;;8;6
+;;4;7
+;;4474;8
+;;0;9
+;;0;10
+;;443709;11
+;;2821858893;12
+;;3350340002;13
