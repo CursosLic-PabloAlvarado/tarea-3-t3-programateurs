@@ -4,15 +4,16 @@ function listen_filter(filter_file, wav_file, Fs = 48000)
   %
   % Entradas:
   %
-  % filter_file = string con el path del archivo que contiene 
+  % filter_file = string con el path del archivo que contiene
   %            los coeficientes del filtro.
   % wav_file = archivo de audio al cual se le aplicara el filtro.
   % Fs = frecuencia de muestreo (por defecto 48 kHz)
 
+  pkg load signal
   % Cargar el filtro desde el archivo .mat
   Data = load(filter_file, "SOS");
   SOS = Data.SOS;
-  
+
   % Convertir SOS a los coeficientes del filtro
   [b, a] = sos2tf(SOS);
 
