@@ -41,6 +41,10 @@ public:
   void process(jack_nframes_t nframes,
                        const sample_t *const in,
                        sample_t *const out);
+
+  void process2(jack_nframes_t nframes,
+                       const sample_t *const in,
+                       sample_t *const out);
 };
 
 

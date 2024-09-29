@@ -31,6 +31,24 @@ void cascade::process(jack_nframes_t nframes,
 
   // Procesar cada etapa
   for (long unsigned int i = 0; i < stages.size(); i++){
+      stages[i]->process(nframes, temp_in, temp_out);
+      memcpy(temp_in, temp_out, sizeof(sample_t) * nframes); // El resultado de una etapa es la entrada de la siguiente
+  }
+
+  // Copiar la salida final al buffer de salida
+  memcpy(out, temp_out, sizeof(sample_t) * nframes);
+}
+
+void cascade::process2(jack_nframes_t nframes,
+                    const sample_t *const in,
+                    sample_t *const out){
+  sample_t temp_in[nframes];
+  sample_t temp_out[nframes];
+
+  memcpy(temp_in, in, sizeof(sample_t) * nframes); // Copia la entrada inicial en temp_in
+
+  // Procesar cada etapa
+  for (long unsigned int i = 0; i < stages.size(); i++){
       stages[i]->process2(nframes, temp_in, temp_out);
       memcpy(temp_in, temp_out, sizeof(sample_t) * nframes); // El resultado de una etapa es la entrada de la siguiente
   }
