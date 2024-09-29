@@ -31,7 +31,7 @@ void cascade::process(jack_nframes_t nframes,
 
   // Procesar cada etapa
   for (long unsigned int i = 0; i < stages.size(); i++){
-      stages[i]->process(nframes, temp_in, temp_out);
+      stages[i]->process2(nframes, temp_in, temp_out);
       memcpy(temp_in, temp_out, sizeof(sample_t) * nframes); // El resultado de una etapa es la entrada de la siguiente
   }
 
