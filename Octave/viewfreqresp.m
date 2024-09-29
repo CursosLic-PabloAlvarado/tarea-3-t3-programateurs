@@ -1,21 +1,23 @@
+pkg load signal;
+
 function viewfreqresp(filename, Fs = 48000)
   % Esta funcion permite visualizar la respuesta y la fase del filtro especificado.
   % Y el diagrama de polos y ceros.
   %
   % Entradas:
   %
-  % filename = string con el path del archivo que contiene 
+  % filename = string con el path del archivo que contiene
   %           la matriz con los coeficientes del filtro.
   % Fs = frecuencia de muestreo (por defecto 48 kHz)
 
   close all;
 
   %TODO: guardar las img en una carpeta mediante un for
-  
+
   % Cargar la matriz SOS desde el archivo
   Data = load(filename, "SOS");
   SOS = Data.SOS;
-  
+
   % Convertir SOS a los coeficientes del filtro (b, a)
   [b, a] = sos2tf(SOS);
 
@@ -44,19 +46,19 @@ function viewfreqresp(filename, Fs = 48000)
   % Plot de la magnitud
   figure;
   subplot(2, 1, 1);
-  semilogx(f, magnitude, 'LineWidth', 2); 
+  semilogx(f, magnitude, 'LineWidth', 2);
   xlabel('F [Hz]');
   ylabel('|H(F)| [dB]');
   title('Respuesta en Magnitud');
-  axis([1 Fs/2 -100 5]); 
+  axis([1 Fs/2 -100 5]);
   grid on;
 
   % Plot de la fase
   subplot(2, 1, 2);
-  semilogx(f, phase, 'LineWidth', 2); 
+  semilogx(f, phase, 'LineWidth', 2);
   xlabel('F [Hz]');
   ylabel('∠H(F) [°]');
   title('Respuesta en Fase');
-  axis([1 Fs/2 -360 0]);  
+  axis([1 Fs/2 -360 0]);
   grid on;
 end
