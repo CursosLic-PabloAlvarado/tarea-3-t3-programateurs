@@ -25,18 +25,15 @@ void biquad::set_coefficients(std::vector< sample_t > filter_coefs){
   this->b0 = filter_coefs[0];
   this->b1 = filter_coefs[1];
   this->b2 = filter_coefs[2];
+  // index 3 ignored on purpose
   this->a1 = filter_coefs[4];
   this->a2 = filter_coefs[5];
 }
 
 /**
- * The process callback for this JACK application is called in a
- * special realtime thread once for each audio cycle.
- *
- * This client does nothing more than copy data from its input
- * port to its output port. It will exit when stopped by 
-   * the user (e.g. using Ctrl-C on a unix-ish operating system)
-   */
+ * First method with the First Direct form for the equation of the filter
+ * 
+*/
 void biquad::process(jack_nframes_t nframes,
                      const sample_t *const in,
                      sample_t *const out) {
@@ -46,7 +43,7 @@ void biquad::process(jack_nframes_t nframes,
 
   for (; in_ptr != end_ptr;) {
     sample_t x = *in_ptr++;
-    sample_t y = this->b0 * x + this->b1 * this->x_minus_1 + this->b2 * this->x_minus_2- this->a1 * this->y_minus_1 - this->a2 * this->y_minus_2;
+    sample_t y = this->b0 * x + this->b1 * this->x_minus_1 + this->b2 * this->x_minus_2 - this->a1 * this->y_minus_1 - this->a2 * this->y_minus_2;
 
     *out_ptr++ = y;
 
@@ -58,6 +55,9 @@ void biquad::process(jack_nframes_t nframes,
   }
 }
 
+/**
+ * Second method with the Second Direct Transpose form for the equation of the filter
+ */
 void biquad::process2(jack_nframes_t nframes,
                      const sample_t *const in,
                      sample_t *const out) {
