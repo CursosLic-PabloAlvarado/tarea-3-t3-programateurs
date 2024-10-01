@@ -1,0 +1,33 @@
+Adding file 'Octave/barrido.wav' succedded
+I> Sample rate changed from 0 to 48000
+I> buffer size changed from 1024 to 1024
+sndfile_thread running
+3 2nd order filter read from Octave/ellip_stopband.matPress x key to exit
+Cascade activado
+  Re-adding file 'Octave/barrido.wav' succedded
+Repeat playing files
+Filtro de test activado
+  Re-adding file 'Octave/barrido.wav' succedded
+Repeat playing files
+Finishing...
+Restoring terminal
+I> Deactivating and closing JACK client
+sndfile_thread stopped
+
+Performance counter stats for './builddir/tarea3 -f Octave/barrido.wav -c Octave/ellip_stopband.mat':
+
+       264.638.833      cycles                                                                
+       299.604.383      instructions                     #    1,13  insn per cycle            
+         4.783.499      cache-misses                                                          
+           882.625      branch-misses                                                         
+       134.461.439      L1-dcache-loads                                                       
+         2.175.253      L1-dcache-load-misses            #    1,62% of all L1-dcache accesses 
+           511.094      LLC-load-misses                                                       
+           150.923      dTLB-load-misses                                                      
+               356      page-faults                                                           
+             3.568      context-switches                                                      
+
+      34,162716396 seconds time elapsed
+
+       0,142795000 seconds user
+       0,239692000 seconds sys
