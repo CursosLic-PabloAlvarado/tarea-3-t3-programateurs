@@ -46,8 +46,11 @@ bool filter_client::process(jack_nframes_t nframes,
 
   if (this->is_passthrough){
     this->passThrough(nframes, in, out);
+
   }else if (this->is_test_filter){
     test_filter.process(nframes, in, out);
+
+  // You can use process or process2  (process2 is more efficient)
   }else if (this->is_cascade){
     cascade_filter.process2(nframes, in, out);
   }
