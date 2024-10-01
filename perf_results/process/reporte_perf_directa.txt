@@ -16,18 +16,18 @@ sndfile_thread stopped
 
 Performance counter stats for './builddir/tarea3 -f Octave/barrido.wav -c Octave/ellip_stopband.mat':
 
-       264.638.833      cycles                                                                
-       299.604.383      instructions                     #    1,13  insn per cycle            
-         4.783.499      cache-misses                                                          
-           882.625      branch-misses                                                         
-       134.461.439      L1-dcache-loads                                                       
-         2.175.253      L1-dcache-load-misses            #    1,62% of all L1-dcache accesses 
-           511.094      LLC-load-misses                                                       
-           150.923      dTLB-load-misses                                                      
-               356      page-faults                                                           
-             3.568      context-switches                                                      
+       250.488.923      cycles                                                                
+       289.972.762      instructions                     #    1,16  insn per cycle            
+         4.911.021      cache-misses                                                          
+           840.315      branch-misses                                                         
+       128.493.179      L1-dcache-loads                                                       
+         2.048.863      L1-dcache-load-misses            #    1,59% of all L1-dcache accesses 
+           473.895      LLC-load-misses                                                       
+           144.382      dTLB-load-misses                                                      
+               362      page-faults                                                           
+             3.399      context-switches                                                      
 
-      34,162716396 seconds time elapsed
+      32,469492355 seconds time elapsed
 
-       0,142795000 seconds user
-       0,239692000 seconds sys
+       0,121252000 seconds user
+       0,261992000 seconds sys

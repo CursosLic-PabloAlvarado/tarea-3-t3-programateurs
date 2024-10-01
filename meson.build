@@ -13,7 +13,7 @@ sources = files('main.cpp', 'jack_client.cpp', 'passthrough_client.cpp',
                 'biquad.cpp', 'cascade.cpp')
 
 # Define the first target
-executable('tarea3', sources, dependencies : all_deps)
+executable('tarea3', sources, dependencies : all_deps, cpp_args : ['-pg'])
 
 # Define the second target with potentially different sources
 google_benchmark_dep = dependency('benchmark', required : true)                
