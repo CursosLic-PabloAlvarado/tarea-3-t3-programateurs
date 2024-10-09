@@ -38,6 +38,7 @@
 #include <cstdlib>
 #include <biquad.h>
 #include <cascade.h>
+#include <cascade_temp.h>
 #include <benchmark/benchmark.h>
 
 /**
@@ -49,7 +50,7 @@
 *
 */
 
-static void BM_Biquad_Process(benchmark::State& state) {
+static void BM_Biquad_Process_directa_1(benchmark::State& state) {
   biquad dut;
   dut.set_coefficients(std::vector<float>{
       1, -1.9962282681026606, 1.0000000006886136,
@@ -69,10 +70,10 @@ static void BM_Biquad_Process(benchmark::State& state) {
 }
 
 // Vary array size from 8 to 8192
-BENCHMARK(BM_Biquad_Process)->RangeMultiplier(2)->Range(256, 8<<10);
+BENCHMARK(BM_Biquad_Process_directa_1)->RangeMultiplier(2)->Range(256, 8<<10);
 
 
-static void BM_Biquad_Process2(benchmark::State& state) {
+static void BM_Biquad_Process_transpose(benchmark::State& state) {
   biquad dut;
   dut.set_coefficients(std::vector<float>{
       1, -1.9962282681026606, 1.0000000006886136,
@@ -92,10 +93,34 @@ static void BM_Biquad_Process2(benchmark::State& state) {
 }
 
 // Vary array size from 8 to 8192
-BENCHMARK(BM_Biquad_Process2)->RangeMultiplier(2)->Range(256, 8<<10);
+BENCHMARK(BM_Biquad_Process_transpose)->RangeMultiplier(2)->Range(256, 8<<10);
+
+// ---------------------------------------------------------------------
+static void BM_Biquad_Process_transpuesta_local_vars(benchmark::State& state) {
+  biquad dut;
+  dut.set_coefficients(std::vector<float>{
+      1, -1.9962282681026606, 1.0000000006886136,
+      1,-1.9902746344470237,0.99111829673050256
+    });
+  int size = state.range(0);
+
+  float input[size];
+  float output[size];
+
+  for (auto _ : state) {
+    dut.process3(size, input, output);
+  }
+
+  state.SetItemsProcessed(size);  // Optional: Report number of items processed
+  state.SetComplexityN(size);    // Optional: Analyze time complexity
+}
+
+// Vary array size from 8 to 8192
+BENCHMARK(BM_Biquad_Process_transpuesta_local_vars)->RangeMultiplier(2)->Range(256, 8<<10);
+// ---------------------------------------------------------------------
 
 
-static void BM_Cascade_Process(benchmark::State& state) {
+static void BM_Cascade_Process_directo_1(benchmark::State& state) {
   cascade dut;
   dut.set_coefficients(std::vector< std::vector<float> >{
       {0.88489099304085195,-1.7647259369167299,0.88489099279944872,
@@ -119,9 +144,9 @@ static void BM_Cascade_Process(benchmark::State& state) {
 }
 
 // Vary array size from 8 to 8192
-BENCHMARK(BM_Cascade_Process)->RangeMultiplier(2)->Range(256, 8<<10);
+BENCHMARK(BM_Cascade_Process_directo_1)->RangeMultiplier(2)->Range(256, 8<<10);
 
-static void BM_Cascade_Process2(benchmark::State& state) {
+static void BM_Cascade_Process_transpose(benchmark::State& state) {
   cascade dut;
   dut.set_coefficients(std::vector< std::vector<float> >{
       {0.88489099304085195,-1.7647259369167299,0.88489099279944872,
@@ -145,6 +170,87 @@ static void BM_Cascade_Process2(benchmark::State& state) {
 }
 
 // Vary array size from 8 to 8192
-BENCHMARK(BM_Cascade_Process2)->RangeMultiplier(2)->Range(256, 8<<10);
+BENCHMARK(BM_Cascade_Process_transpose)->RangeMultiplier(2)->Range(256, 8<<10);
+
+
+static void BM_Cascade_Process_transpose_local_vars(benchmark::State& state) {
+  cascade dut;
+  dut.set_coefficients(std::vector< std::vector<float> >{
+      {0.88489099304085195,-1.7647259369167299,0.88489099279944872,
+      1,-1.9447696737414277,0.96118976527688038},
+      {1, -1.9962282681026606, 1.0000000006886136,
+      1,-1.9902746344470237,0.99111829673050256},
+      {1,-1.9975106328926273,0.99999999958419417,
+      1,-1.8137023593689499,0.81712922359906082}
+    });
+  int size = state.range(0);
+
+  float input[size];
+  float output[size];
+
+  for (auto _ : state) {
+    dut.process3(size, input, output);
+  }
+
+  state.SetItemsProcessed(size);  // Optional: Report number of items processed
+  state.SetComplexityN(size);    // Optional: Analyze time complexity
+}
+
+// Vary array size from 8 to 8192
+BENCHMARK(BM_Cascade_Process_transpose_local_vars)->RangeMultiplier(2)->Range(256, 8<<10);
+
+
+static void BM_Cascade_Process_template_transpose(benchmark::State& state) {
+  cascade_temp<3> dut;
+  dut.set_coefficients(std::vector< std::vector<float> >{
+      {0.88489099304085195,-1.7647259369167299,0.88489099279944872,
+      1,-1.9447696737414277,0.96118976527688038},
+      {1, -1.9962282681026606, 1.0000000006886136,
+      1,-1.9902746344470237,0.99111829673050256},
+      {1,-1.9975106328926273,0.99999999958419417,
+      1,-1.8137023593689499,0.81712922359906082}
+    });
+  int size = state.range(0);
+
+  float input[size];
+  float output[size];
+
+  for (auto _ : state) {
+    dut.process2(size, input, output);
+  }
+
+  state.SetItemsProcessed(size);  // Optional: Report number of items processed
+  state.SetComplexityN(size);    // Optional: Analyze time complexity
+}
+
+// Vary array size from 8 to 8192
+BENCHMARK(BM_Cascade_Process_template_transpose)->RangeMultiplier(2)->Range(256, 8<<10);
+
+
+static void BM_Cascade_Process_template_local_vars(benchmark::State& state) {
+  cascade_temp<3> dut;
+  dut.set_coefficients(std::vector< std::vector<float> >{
+      {0.88489099304085195,-1.7647259369167299,0.88489099279944872,
+      1,-1.9447696737414277,0.96118976527688038},
+      {1, -1.9962282681026606, 1.0000000006886136,
+      1,-1.9902746344470237,0.99111829673050256},
+      {1,-1.9975106328926273,0.99999999958419417,
+      1,-1.8137023593689499,0.81712922359906082}
+    });
+  int size = state.range(0);
+
+  float input[size];
+  float output[size];
+
+  for (auto _ : state) {
+    dut.process3(size, input, output);
+  }
+
+  state.SetItemsProcessed(size);  // Optional: Report number of items processed
+  state.SetComplexityN(size);    // Optional: Analyze time complexity
+}
+
+// Vary array size from 8 to 8192
+BENCHMARK(BM_Cascade_Process_template_local_vars)->RangeMultiplier(2)->Range(256, 8<<10);
 
 BENCHMARK_MAIN();

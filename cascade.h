@@ -1,8 +1,6 @@
 #include <cstring>
 using namespace std;
 
-#include <cstring>
-
 #ifndef _cascade_H
 #define _cascade_H
 
@@ -45,6 +43,9 @@ public:
   void process2(jack_nframes_t nframes,
                        const sample_t *const in,
                        sample_t *const out);
+  void process3(jack_nframes_t nframes,
+                      const sample_t * __restrict__ in,
+                      sample_t * __restrict__ out);
 };
 
 
